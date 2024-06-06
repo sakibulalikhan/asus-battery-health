@@ -6,7 +6,8 @@ cat << "EOF"
 ┏┓      ┳┓            ┓┏    ┓ ┓
 ┣┫┏┓┏┏  ┣┫┏┓╋╋┏┓┏┓┓┏  ┣┫┏┓┏┓┃╋┣┓
 ┛┗┛┗┻┛  ┻┛┗┻┗┗┗ ┛ ┗┫  ┛┗┗ ┗┻┗┗┛┗
-                   ┛
+                   ┛ @sakibulalikhan
+
 EOF
 
 # Set the default charge threshold to 60%
