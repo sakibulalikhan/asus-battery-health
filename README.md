@@ -2,7 +2,7 @@
 
 Author: [@sakibulalikhan](https://github.com/sakibulalikhan)
 
-![image](https://github.com/sakibulalikhan/asus-battery-health/assets/75080608/fc95b38d-4e2c-4617-8fa7-11122d69cc0b)
+![image](https://github.com/sakibulalikhan/asus-battery-health/assets/75080608/f72bc5c6-68f9-4a03-b7c4-463b30ee4d52)
 
 Asus laptops come with a built-in feature known as Asus Battery Health Charging, which is often integrated into the MyAsus application. This feature enables users to set a charging threshold, typically at 60%, when the laptop is connected to AC power. Maintaining the battery charge at 60% helps mitigate heating issues, enhances performance, and significantly extends the overall lifespan of the laptop battery.
 
@@ -23,8 +23,9 @@ abh [-t <charge_threshold>] [-r] [-v] [-h]
 ┏┓      ┳┓            ┓┏    ┓ ┓
 ┣┫┏┓┏┏  ┣┫┏┓╋╋┏┓┏┓┓┏  ┣┫┏┓┏┓┃╋┣┓
 ┛┗┛┗┻┛  ┻┛┗┻┗┗┗ ┛ ┗┫  ┛┗┗ ┗┻┗┗┛┗
-                   ┛
-Usage: abh [-t <charge_threshold>] [-r] [-v] [-h]
+                   ┛ @sakibulalikhan
+
+Usage: /usr/bin/abh [-t <charge_threshold>] [-r] [-v] [-h]
 Options:
   -t <charge_threshold>  Set the charge threshold (default: 60)
   -r                     Remove the charge threshold
