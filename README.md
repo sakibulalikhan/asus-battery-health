@@ -1,6 +1,6 @@
-Asus Battery Health Charging Script For Linux
+# Asus Battery Health Charging Script For Linux
 
-Author: @sakibulalikhan
+Author: [@sakibulalikhan](https://github.com/sakibulalikhan)
 
 ![image](https://github.com/sakibulalikhan/asus-battery-health/assets/75080608/fc95b38d-4e2c-4617-8fa7-11122d69cc0b)
 
