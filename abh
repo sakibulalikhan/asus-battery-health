@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# Print script header
+cat << "EOF"
+
+┏┓      ┳┓            ┓┏    ┓ ┓
+┣┫┏┓┏┏  ┣┫┏┓╋╋┏┓┏┓┓┏  ┣┫┏┓┏┓┃╋┣┓
+┛┗┛┗┻┛  ┻┛┗┻┗┗┗ ┛ ┗┫  ┛┗┗ ┗┻┗┗┛┗
+                   ┛
+EOF
+
+# Set the default charge threshold to 60%
+CHARGE_THRESHOLD=60
+VERBOSE_MODE=false
+
+# Display help message
+display_help() {
+  echo "Usage: $0 [-t <charge_threshold>] [-r] [-v] [-h]"
+  echo "Options:"
+  echo "  -t <charge_threshold>  Set the charge threshold (default: 60)"
+  echo "  -r                     Remove the charge threshold"
+  echo "  -v                     Enable verbose mode"
+  echo "  -h                     Display this help message"
+  exit 0
+}
+
+# Check if any arguments were provided
+if [ $# -eq 0 ]; then
+  display_help
+fi
+
+# Parse command-line arguments
+while getopts ":t:rvh" opt; do
+  case ${opt} in
+    t )
+      CHARGE_THRESHOLD=$OPTARG
+      ;;
+    r )
+      REMOVE_THRESHOLD=true
+      ;;
+    v )
+      VERBOSE_MODE=true
+      ;;
+    h )
+      display_help
+      ;;
+    \? )
+      echo "Invalid option: -$OPTARG" >&2
+      display_help
+      ;;
+  esac
+done
+
+# Determine the battery name
+BATTERY_NAME=$(ls /sys/class/power_supply | grep "BAT")
+
+# Function to display verbose messages
+verbose() {
+  if [ "$VERBOSE_MODE" = true ]; then
+    echo "$1"
+  fi
+}
+
+if [ -n "$REMOVE_THRESHOLD" ]; then
+  # Remove the charge threshold
+  verbose "Removing the charge threshold..."
+  echo 100 | sudo tee /sys/class/power_supply/$BATTERY_NAME/charge_control_end_threshold > /dev/null
+
+  # Remove the systemd service
+  verbose "Disabling systemd service..."
+  sudo systemctl disable asus-battery-health.service > /dev/null
+  sudo systemctl stop asus-battery-health.service > /dev/null
+  sudo rm /etc/systemd/system/asus-battery-health.service > /dev/null
+
+  echo "Asus Battery Health Charging has been disabled."
+else
+  # Set the charge threshold
+  verbose "Setting the charge threshold to $CHARGE_THRESHOLD%..."
+  echo $CHARGE_THRESHOLD | sudo tee /sys/class/power_supply/$BATTERY_NAME/charge_control_end_threshold > /dev/null
+
+  # Create a systemd service to make the change permanent
+  verbose "Creating systemd service..."
+  sudo tee /etc/systemd/system/asus-battery-health.service > /dev/null << EOF
+[Unit]
+Description=Asus Battery Health Charging
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "while true; do echo $CHARGE_THRESHOLD > /sys/class/power_supply/$BATTERY_NAME/charge_control_end_threshold; sleep 60; done"
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+  verbose "Enabling systemd service..."
+  sudo systemctl enable asus-battery-health.service > /dev/null
+  sudo systemctl start asus-battery-health.service > /dev/null
+
+  echo "Asus Battery Health Charging has been enabled with a charge threshold of $CHARGE_THRESHOLD%."
+  verbose "Systemd service status:"
+  sudo systemctl status asus-battery-health.service | sed -n '/^●/p'
+fi
