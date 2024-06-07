@@ -50,39 +50,82 @@ Options:
 
 ## Manual Installation
 
-1. Clone this repository:
+1. Clone this repository
 
 ```bash
 git clone https://github.com/sakibulalikhan/asus-battery-health.git
 ```
 
-2. Navigate to the cloned directory:
+2. Navigate to the cloned directory
 
 ```bash
 cd asus-battery-health-script
 ```
-3. Run script
+3. Give execution permission
+
+```bash
+sudo chmod +x abh
+```
+
+4. Run script
 
 ```Bash
 sh abh
+```
+  Or
+
+```bash
+./abh
 ```
 
 ## How to Use:
 
 
-1. Execute the script with your preferred options:
+1. Execute the script with default options
+
+```bash
+abh -t # Sets charge threshold default to 60%
+```
+2. Execute the script with your preferred options
 
 ```bash
 abh -t 80  # Sets charge threshold to 80%
 ```
-2. Help command
+3. 2. Execute the script with Verbose mode
+
+```bash
+abh -t -v
+```
+
+4. Help command
 ```bash
 abh -h
 ```
-3. Remove charge threshold
+
+5. Remove charge threshold
 ```bash
 abh -r
 ```
+
+## Check Systemd status
+
+```bash
+➜  ~ systemctl status asus-battery-health.service  # Use this command on terminal.
+
+● asus-battery-health.service - Asus Battery Health Charging
+     Loaded: loaded (/etc/systemd/system/asus-battery-health.service; enabled; preset: disabled)
+     Active: active (running) since Thu 2024-06-06 22:37:32 +06; 13h ago
+   Main PID: 873 (bash)
+      Tasks: 2 (limit: 13918)
+     Memory: 608.0K (peak: 1.0M)
+        CPU: 257ms
+     CGroup: /system.slice/asus-battery-health.service
+             ├─  873 /bin/bash -c "while true; do echo 80 > /sys/class/power_supply/BAT0/charge_control_end_>
+             └─24696 sleep 60
+
+Jun 06 22:37:32 arch systemd[1]: Started Asus Battery Health Charging.
+```
+
 ## Contributing:
 
 Contributions are welcome! If you have any suggestions, improvements, or bug fixes, please create an issue or submit a pull request.
