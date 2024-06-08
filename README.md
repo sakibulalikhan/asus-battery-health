@@ -107,25 +107,6 @@ abh -h
 abh -r
 ```
 
-## Check Systemd status
-
-```bash
-➜  ~ systemctl status asus-battery-health.service  # Use this command on terminal.
-
-● asus-battery-health.service - Asus Battery Health Charging
-     Loaded: loaded (/etc/systemd/system/asus-battery-health.service; enabled; preset: disabled)
-     Active: active (running) since Thu 2024-06-06 22:37:32 +06; 13h ago
-   Main PID: 873 (bash)
-      Tasks: 2 (limit: 13918)
-     Memory: 608.0K (peak: 1.0M)
-        CPU: 257ms
-     CGroup: /system.slice/asus-battery-health.service
-             ├─  873 /bin/bash -c "while true; do echo 80 > /sys/class/power_supply/BAT0/charge_control_end_>
-             └─24696 sleep 60
-
-Jun 06 22:37:32 arch systemd[1]: Started Asus Battery Health Charging.
-```
-
 ## Contributing:
 
 Contributions are welcome! If you have any suggestions, improvements, or bug fixes, please create an issue or submit a pull request.
